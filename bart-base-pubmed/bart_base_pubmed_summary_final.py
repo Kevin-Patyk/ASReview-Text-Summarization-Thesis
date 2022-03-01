@@ -224,7 +224,6 @@ args = Seq2SeqTrainingArguments(
     fp16=True,
     push_to_hub=True,
     seed = 42,
-    generation_max_length
 )
 
 """Here we set the evaluation to be done at the end of each epoch, tweak the learning rate, use the `batch_size` defined at the top of the cell and customize the weight decay. Since the `Seq2SeqTrainer` will save the model regularly and our dataset is quite large, we tell it to make three saves maximum. Lastly, we use the `predict_with_generate` option (to properly generate summaries) and activate mixed precision training (to go a bit faster).

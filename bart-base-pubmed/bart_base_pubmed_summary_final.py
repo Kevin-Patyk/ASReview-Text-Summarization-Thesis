@@ -62,7 +62,7 @@ We will see how to easily load the dataset for this task using 🤗 `Datasets` a
 
 model_checkpoint = "facebook/bart-base"
 
-"""This notebook is built to run  with any model checkpoint from the [Model Hub](https://huggingface.co/models) as long as that model has a sequence-to-sequence version in the Transformers library. Here we picked the [`facebook/bart-large-xsum`](https://huggingface.co/facebook/bart-large-xsum) checkpoint.
+"""This notebook is built to run  with any model checkpoint from the [Model Hub](https://huggingface.co/models) as long as that model has a sequence-to-sequence version in the Transformers library. Here we picked the [`facebook/bart-base`](https://huggingface.co/facebook/bart-base?text=World+War+II+or+the+Second+World+War%2C+often+abbreviated+as+WWII+or+WW2%2C+was+a+global+war+that+lasted+from+1939+to+1945.+It+involved+the+vast+majority+of+the+world%27s+countries%E2%80%94including+all+of+the+great+powers%E2%80%94forming+two+opposing+military+alliances%3A+the+Allies+and+the+Axis+powers.+In+a+total+war+directly+involving+more+than+100+million+personnel+from+more+than+30+countries%2C+the+major+participants+threw+their+entire+economic%2C+industrial%2C+and+scientific+capabilities+behind+the+war+effort%2C+blurring+the+distinction+between+civilian+and+military+resources.+Aircraft+played+a+major+role+in+the+conflict%2C+enabling+the+strategic+bombing+of+population+centres+and+the+only+two+uses+of+nuclear+weapons+in+war.+World+War+II+was+by+far+the+deadliest+conflict+in+human+history%3B+it+resulted+in+70+to+85+million+fatalities%2C+a+majority+being+civilians.+Tens+of+millions+of+people+died+due+to+genocides+%28including+the+Holocaust%29%2C+starvation%2C+massacres%2C+and+disease.+In+the+wake+of+the+Axis+defeat%2C+Germany+and+Japan+were+occupied%2C+and+war+crimes+tribunals+were+conducted+against+German+and+Japanese+leaders.) checkpoint.
 
 ## Loading the dataset
 
@@ -166,7 +166,7 @@ else:
 
 """We can then write the function that will preprocess our samples. We just feed them to the `tokenizer` with the argument `truncation=True`. This will ensure that an input longer that what the model selected can handle will be truncated to the maximum length accepted by the model. The padding will be dealt with later on (in a data collator) so we pad examples to the longest length in the batch and not the whole dataset.
 
-The max input length of `facebook/bart-large-xsum` is 1024, so `max_input_length = 1024`.
+The max input length of `facebook/bart-base` is 1024, so `max_input_length = 1024`.
 """
 
 max_input_length = 1024

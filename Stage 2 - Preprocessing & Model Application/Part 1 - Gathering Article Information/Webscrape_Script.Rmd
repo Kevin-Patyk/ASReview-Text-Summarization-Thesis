@@ -1,0 +1,214 @@
+---
+title: "ASReview Webscrape Script"
+author: "Kevin Patyk"
+date: "3/28/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Loading the required packages
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(httr)
+```
+
+-----
+
+# Importing the data
+
+Loading the data which contains information about the articles that need to be downloaded as PDF files.
+```{r}
+df <- read.csv(file = "Article_Information.csv")
+```
+
+Double checking to make sure that the data loaded in correctly and inspecting the data.
+```{r}
+#getting the dimensions (rows x columns)
+dim(df)
+#checking the first 6 observations
+head(df)
+#checking the last 6 observations
+tail(df)
+```
+
+Checking for the number of inclusions.
+```{r}
+table(df$included)
+```
+
+-----
+
+# PDF webscrape script
+
+It takes as input a `.csv` with a column `doi` (or just change the column name in the function `get_upwtakes`), and outputs a `.csv` with the original data and the results from unpaywall in 6 additional columns:
+
+* `upw_doi` - the doi as it is in unpaywall
+* `upw_oa` - T/F; whether upw has found an open access version
+* `upw_oa_status`: gold, hybrid, bronze, green
+* `upw_license`: the license of the 'best oa version' in unpaywall, if available (with publisher versions prioritized over version in a repository)
+* `upw_url`: the url to the pdf or, if that's not available, to the landing page of the oa version
+* `upw_url_is_pdf`: T/F; whether the url is to the pdf or not
+
+Unpaywall takes dois in various forms (case insensitive, and with/without the url-prefixes `http://dx.doi.org` and `https://doi.org`, so the function returns the input dois as well to match back to the original dataframe, but this variable is not included in the final output.
+```{r}
+#setting email
+email <- 'k.c.patyk@uu.nl'
+
+#function to query Unpaywall API
+#the API returns an error message in json when an invalid DOI is entered -> no need for tryCatch
+get_upw <- function(doi, var_email){
+  url <- paste0("https://api.unpaywall.org/v2/",
+                doi,
+                "?email=",
+                email)
+  raw_data <- httr::GET(url)
+  rd <- httr::content(raw_data)
+  
+  res <- list(input = doi,
+              output = rd)
+}
+
+#functions to add progress bar
+get_upw_progress <- function(x, var_email){
+  pb$tick()$print()
+  res <- get_upw(x, var_email)
+  
+  return(res)
+}
+
+
+extract_upw_data <- function(x){
+  
+  #because upw takes dois in various forms (with or without url prefix)
+  #input value is returned to enable matching back to original dataframe
+  input_doi <- x$input
+  
+  upw_doi <- x$output %>%
+    pluck("doi", .default = NA)
+  
+  upw_is_oa <- x$output %>%
+    pluck("is_oa", .default = NA)
+  
+  upw_oa_status <- x$output %>%
+    pluck("oa_status", .default = NA)
+  
+  upw_license <- x$output %>%
+    pluck("best_oa_location", .default = NA) %>%
+    pluck("license", .default = NA)
+  
+  upw_url <- x$output %>%
+    pluck("best_oa_location", .default = NA) %>%
+    pluck("url", .default = NA)
+  
+  upw_url_pdf <- x$output %>%
+    pluck("best_oa_location", .default = NA) %>%
+    pluck("url_for_pdf", .default = NA)
+  
+  res <- list(input_doi = input_doi,
+              upw_doi = upw_doi,
+              upw_is_oa = upw_is_oa,
+              upw_oa_status = upw_oa_status,
+              upw_license = upw_license,
+              upw_url = upw_url,
+              upw_url_pdf = upw_url_pdf)
+  
+  return(res)
+  
+}  
+
+#----------------------------------------------
+
+# Set email as variable "upw_email" in .Renviron
+#file.edit("~/.Renviron")
+# Restart R session after saving .Renviron 
+
+# Get email for Unpaywall as variable from .Renviron
+#email <- Sys.getenv("upw_email")
+
+# import csv with dois in column doi
+# if needed, rename/create column 'doi' after import, or adapt column name in function 
+#set correct path and file name in next line
+df <- read_csv("Article_Information.csv")
+
+#create vector of unique dois
+dois <- df %>%
+  filter(!is.na(doi)) %>%
+  pull(doi) %>%
+  unique()
+
+
+#set parameter for progress bar
+#this gives a warning but still works as of 2022-03
+pb <- progress_estimated(length(dois))
+
+#get API results
+res_upw <- map(dois, ~get_upw_progress(.,
+                                        var_email = email))
+
+#extract data
+df_upw <- map_dfr(res_upw, extract_upw_data)
+
+# create T/F column with indication url_is_pdf
+df_upw <- df_upw %>%
+  mutate(upw_url_is_pdf = case_when(
+    upw_url == upw_url_pdf ~ TRUE,
+    TRUE ~ FALSE)) %>%
+  select(-upw_url_pdf)
+
+
+#join upw columns back to original df
+df_res <- df %>%
+  left_join(df_upw, by = c("doi" = "input_doi"))
+
+
+#write result to csv
+#set path and file name in line below
+write_csv(df_res, "Article_Information_res.csv")
+```
+
+----- 
+
+# Results
+
+Will be looking at:
+
+* Total number of records / total number of relevant records
+* No. of records with a DOI / no. of relevant records with DOI
+* No. of records with a link to the full text / no. of relevant records with a link
+* No. of records with full text with a permissive license / no. of relevant records with per.lic.
+```{r}
+#inclusions/exclusions
+table(df_res$included)
+
+#number of records with doi
+sum(!is.na(df_res$doi))
+
+#number of relevant records with doi
+sum(!is.na(df_res[df_res$included == 1, ]$doi))
+
+#number of records with link to full text
+sum(!is.na(df_res$upw_url))
+
+#number of relevant records with link
+sum(!is.na(df_res[df_res$included == 1, ]$upw_url))
+
+#number of records with full text permissive license
+table(df_res$upw_license)
+
+#number of relevant records with permissive license
+table(df_res[df_res$included == 1, ]$upw_license)
+```
+
+------
+
+# End of document
+
+------
+
+```{r}
+sessionInfo()
+```
+

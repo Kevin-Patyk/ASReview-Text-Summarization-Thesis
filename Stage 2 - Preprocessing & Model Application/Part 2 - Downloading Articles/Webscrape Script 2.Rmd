@@ -1,0 +1,140 @@
+---
+title: "Web Scrape Script 2"
+author: "Kevin Patyk"
+date: "4/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Importing the data
+
+Importing the `Article_Information_res.csv` data so that more information can be extracted from it.
+```{r}
+df <- read.csv("Article_Information_res.csv")
+
+#creating a back up
+df_backup <- df
+```
+
+Subsetting the data frame based on whether the articles have the URL as a PDF.
+```{r}
+#only extracting values that are not missing
+df <- df[!is.na(df$upw_url_is_pdf), ]
+
+#subsetting so only articles with the url as pdf are selected
+df <- df[df$upw_url_is_pdf == TRUE, ]
+```
+
+Double checking to make sure that all remaining articles have the URL as a PDF.
+```{r}
+table(df$upw_url_is_pdf)
+```
+
+Counting to see how many articles that have the URL as a PDF are inclusions/exclusions.
+```{r}
+table(df$included)
+```
+
+Checking the licenses of the remaining articles.
+```{r}
+table(df$upw_license, useNA = "always")
+```
+
+Selecting only the articles that have abstracts.
+```{r}
+df <- df[!is.na(df$abstract), ]
+```
+
+Checking how many articles are inclusions/exclusions after removal of articles with no extracts.
+```{r}
+table(df$included)
+```
+
+Selecting only the column with the URLs.
+```{r}
+#selecting only the URL column
+URL <- df[, "upw_url", drop = F]
+
+#resetting the row names
+rownames(URL) <- NULL
+```
+
+# Scraping the web to download PDFs from URLs
+
+Writing a for loop to download all of the PDFs with some error control. If there is an error, it will save the index of the error so the article can be identified and manually downloaded.
+```{r eval=FALSE}
+#initializing the storage for the error indices
+error_index <- numeric()
+
+#writing the for loop
+for(i in 1:nrow(URL)){
+  
+  #initializing the skip condition
+  skip_to_next <- FALSE
+  
+  #writing the for loop to download PDFs and if there is an error, skip_to_next will = T
+  tryCatch(download.file(url = URL[i, ], destfile = paste("article", i, ".pdf", sep = ""), mode = "wb"), error = function(e) {skip_to_next <<- TRUE})
+  
+  #if skip_to_next == T, save the index and go to the next one 
+  if(skip_to_next){
+    error_index[i] <- i
+    next()
+    }  
+}
+
+```
+
+Checking which articles were not downloaded correctly.
+```{r}
+#getting the indices - this is the code for the error index, but markdown will not accept it because the web scrape above is needed to run it but it is set to eval = FALSE so all of the PDFs do not need to redownload in order to compile into HTML
+# indices <- which(!is.na(error_index))
+
+#the indices are below, entered manually
+indices <- c(171L, 388L, 389L, 392L, 427L, 583L, 595L, 600L, 744L, 754L, 
+944L, 1120L, 1130L, 1140L, 1236L, 1408L, 1661L, 1711L, 1727L, 
+1784L, 1817L, 1868L, 1995L, 2012L, 2123L, 2291L, 2453L, 2677L, 
+2803L, 2838L, 2971L, 2973L, 3263L, 3297L, 3503L, 3553L, 3680L, 
+3764L, 3929L, 4094L, 4152L, 4343L, 4544L, 4787L, 4805L, 4899L, 
+4977L, 5085L, 5186L, 5241L, 5266L, 5271L, 5331L, 5368L, 5379L, 
+5427L, 5478L, 5642L, 5740L, 5741L, 5801L, 5813L, 5870L, 6058L, 
+6291L, 6335L, 6364L, 6465L, 6468L, 6480L, 6550L, 6551L, 6556L, 
+6925L, 6965L, 7255L, 7258L, 7278L, 7377L, 7385L, 7470L, 7519L, 
+7549L, 7602L, 7694L, 7698L, 7792L, 7932L, 8083L, 8099L, 8258L, 
+8268L, 8274L, 8322L, 8333L, 8353L, 8471L, 8610L, 8632L, 8665L, 
+8740L, 8751L, 8764L, 8906L, 8956L, 9035L, 9126L, 9279L, 9345L, 
+9379L, 9382L, 9385L, 9392L, 9412L, 9473L)
+
+#getting the URLs associated with these indices
+manual_dl <- URL[indices, ]
+```
+
+If the articles that were not downloaded correctly were exclusions, they will not be downloaded since they are not needed.
+```{r}
+table(df[indices, "included"])
+```
+
+All 115 of the articles that were not downloaded via the web scrape code are exclusions, so they will not be downloaded manually and will be removed from the analysis. 
+
+Creating a dataset with metadata that full text will be added to. The columns needed are: `title`, `abstract`, `doi`, and `included`. 
+```{r}
+final_df <- df[-indices, c("title", "abstract", "doi", "included")]
+```
+
+Exporting the data.
+```{r eval=FALSE}
+write.csv(x = final_df, file = "article_metadata_no_FT.csv")
+```
+
+-----
+
+# End of document
+
+-----
+
+```{r}
+sessionInfo()
+```
+

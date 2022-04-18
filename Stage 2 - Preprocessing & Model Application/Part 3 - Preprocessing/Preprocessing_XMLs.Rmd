@@ -1,0 +1,309 @@
+---
+title: "Preprocessing"
+author: "Kevin Patyk"
+date: "4/11/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+In this document, the body (main text) from the `XML` files will be extracted and loaded into a dataset. Then, preprocessing will be done on the resulting data frame.
+
+-----
+
+# Loading libraries
+
+```{r warning=FALSE, message=FALSE}
+library(xml2)
+library(tidyverse)
+library(tm)
+```
+
+----- 
+
+# Removing files that did not parse correctly
+
+Some files did not parse correctly and cannot be loaded into `R` as `XML` files, so they must be removed prior to import.
+```{r eval=FALSE}
+dir <- list.files(path = "data",
+                     pattern ='*.xml',
+                     full.names = TRUE)
+
+error_index <- numeric()
+
+for(i in 1:length(dir)){
+    
+  #initializing the skip condition
+  skip_to_next <- FALSE
+  
+  #writing the for loop to download PDFs and if there is an error, skip_to_next will = T
+  tryCatch(xml2::read_xml(x = dir[i]), error = function(e) {skip_to_next <<- TRUE})
+  
+  #if skip_to_next == T, save the index and go to the next one 
+  if(skip_to_next){
+    error_index[i] <- i
+    next()
+    }  
+}
+```
+
+Now to check the names of the files that are errors.
+```{r eval=FALSE}
+#getting the indices
+indices <- which(!is.na(error_index))
+
+#getting the names of the files
+(timeouts <- dir[indices])
+```
+
+-----
+
+# XML files into data frame
+
+The body (main text) of the `XML` files will now be extracted and inserted into a data frame. 
+```{r eval=FALSE}
+# define function to extract body text into one character string
+getFullText <- function(xml){
+  
+  # convert xml to list
+  xml_list <- xml2::as_list(xml)
+  # extract body element only
+  xml_body <- xml_list$TEI$text$body
+  # flatten list levels into character vector
+  xml_body_chr <- unlist(xml_body)
+  # collapse character vector into one string
+  xml_body_chr_collapse <- paste(xml_body_chr, collapse = " ")
+  
+  return(xml_body_chr_collapse)
+}
+
+# Create character vector with all file names as full paths
+rd.list <- list.files(path = "data",
+                     pattern ='*.xml',
+                     full.names = TRUE)
+rd.list <- rd.list[-indices]
+
+# Also create character vector with filenames only, and then remove file extension
+rd.names <- list.files(path = "data",
+                       pattern ='\\.xml$')
+rd.names <- rd.names[-indices]
+
+rd.names <- str_remove(rd.names, pattern = ".tei.xml")
+
+# Set names of elements in first character vector rd.list
+rd.list <- set_names(rd.list, rd.names)
+
+# Import all xml files as named list
+xml.list <- map(rd.list, xml2::read_xml)
+
+# Iterate over all xml files to extract body text
+res <- map(xml.list, getFullText)
+
+# Coerce into dataframe 
+df <- bind_rows(res)
+
+# Transpose rows and columns
+df <- pivot_longer(df, everything(), names_to = "file", values_to = "text")
+```
+
+Now to get the titles of the XML files so they can be matched to the titles in the metadata.
+```{r eval=FALSE}
+# define function to extract body text into one character string
+getTitle <- function(xml){
+  
+  # convert xml to list
+  xml_list <- xml2::as_list(xml)
+  # extract body element only
+  xml_title <- xml_list$TEI$teiHeader$fileDesc$titleStmt$title
+  # flatten list levels into character vector
+  xml_title_chr <- unlist(xml_title)
+  
+  return( xml_title_chr)
+}
+
+# Create character vector with all file names as full paths
+rd.list <- list.files(path = "data",
+                      pattern ='*.xml',
+                      full.names = TRUE)
+
+rd.list <- rd.list[-indices]
+
+# Also create character vector with filenames only, and then remove file extension
+rd.names <- list.files(path = "data",
+                       pattern ='\\.xml$')
+rd.names <- rd.names[-indices]
+
+rd.names <- str_remove(rd.names, pattern = ".tei.xml")
+
+# Set names of elements in first character vector rd.list
+rd.list <- set_names(rd.list, rd.names)
+
+# Import all xml files as named list
+xml.list <- map(rd.list, xml2::read_xml)
+
+# Iterate over all xml files to extract body text
+res2 <- map(xml.list, getTitle)
+
+# Coerce into dataframe 
+df2 <- bind_rows(res2)
+
+# Transpose rows and columns
+df2 <- pivot_longer(df2, everything(), names_to = "file", values_to = "title")
+```
+
+Merging the data frame of titles and the data frame of full texts.
+```{r eval=FALSE}
+df_merged <- merge(x = df2, y = df, by = "file")
+```
+
+-----
+
+# Preprocessing
+
+Now that the full text is in a data frame, preprocessing of the text can be done.
+
+First, there are some articles that are not in English, so those will be removed.
+```{r eval=FALSE}
+#loading Google's cld3 for language detection
+#install.packages("cld3")
+library(cld3)
+
+#getting a table of the languages used in the PDFs 
+table(detect_language(df_merged$text), useNA = "always")
+
+#getting the indices of the non-english articles
+lang_indices <- which(detect_language(df_merged) != "en" | is.na(detect_language(df_merged)))
+
+#now to get the name and text of the articles that have non english or missing text
+lang_check <- df_merged[lang_indices, ]
+
+#making a new dataframe with only the english articles
+df_eng <- df_merged[-lang_indices, ]
+
+#converting to a data frame and making a backup
+df_eng_backup <- df_eng
+df_eng <- as.data.frame(df_eng)
+```
+
+Preprocessing the text. Multiple `for` loops will be used because, if done all at once, it takes a very long time and may result in crashes. Furthermore, the class of `data.frame` should be retained; the `apply` family of functions does not allow for this. 
+```{r eval=FALSE}
+#making everything lowercase
+df_lower <- data.frame("text" = character())
+
+for(i in 1:nrow(df_eng)){
+  df_lower[i, 1] <- tolower(df_eng[i, "text"])
+}
+
+#removing everything between parentheses so in-text citations are not there
+df_rem_par <- data.frame("text" = character())
+
+for(i in 1:nrow(df_lower)){
+  df_rem_par[i, ] <- str_replace_all(df_lower[i, ], " \\s*\\([^\\)]+\\)", "")
+}
+
+#removing anything that is not a letter or number
+df_remove <- data.frame("text" = character())
+
+for(i in 1:nrow(df_rem_par)){
+  df_remove[i, ] <- str_replace_all(df_rem_par[i, ],"[^a-zA-Z\\s]", " ")
+}
+
+#removing whitespace
+df_final <- data.frame("text" = as.character())
+
+for(i in 1:nrow(df_remove)){
+  df_final[i, ] <- str_replace_all(df_remove[i, ],"[\\s]+", " ")
+}
+```
+
+Now adding the full text column back into the data.
+```{r eval=FALSE}
+df_eng$text <- df_final$text
+```
+
+Removing any extremely long articles since a `.csv` file has a character limit in the cells.
+```{r eval=FALSE}
+#removing all articles that have a length greater than an excel cell can handle
+long_ind <- which(nchar(df_eng$text) > 32766)
+df_processed <- df_eng[-long_ind, ]
+```
+
+----- 
+
+# Combining and exporting
+
+Now that the data has been preprocessed, it will be combined with the dataset containing the metadata. 
+
+A total 3 of datasets will be made here:
+
+* 1 dataset containing only the metadata
+* 1 dataset containing the metadata and full text
+* 1 dataset containing the meta data and full text, with the full text being replaced by enhanced summaries later using `Python`
+
+First, loading in the file containing the metadata without full text.
+```{r eval=FALSE}
+meta_no_FT <- read.csv(file = "article_metadata_no_FT.csv")
+meta_no_FT_backup <- meta_no_FT
+```
+
+Merging the full text with the metadata based on article titles.
+```{r eval=FALSE}
+#removing the named rows from the meta data df
+meta_no_FT <- meta_no_FT[, -1]
+
+#merging based on titles
+meta_FT <- merge(x = meta_no_FT, y = df_processed, by.x = "title", by.y = "title")
+
+#creating the data frame which will be used to make summaries
+meta_EA <- meta_FT
+```
+
+Now, to make the metadata without the full text and the remaining articles.
+```{r eval=FALSE}
+meta_original <- meta_FT[, c("title", "abstract", "doi", "included")]
+```
+
+Now to check the number of inclusions.
+```{r eval=FALSE}
+table(meta_original$included)
+```
+
+The dataset we started out with had a total of 46,376 articles. There were originally 46,313 exclusions and 63 inclusions. It was decided that only articles that had a PDF file as a URL would be downloaded and used. Out of the 46,376 articles, 14,553 had a missing values on whether or not the URL was a PDF, so they were removed, leaving a total of 31,823. 9,982 articles had the URL as a PDF (21,841 did not), but 490 of them were missing abstracts, so those were removed, leaving us with a total of 9,492 articles. During the web scrape (downloading all of the PDFs), 115 articles did not download correctly, leaving the total at 9,377. When parsing the PDF files, `GROBID` did not manage do parse 30 files, making the total 9,347. During preprocessing, it was discovered that 133 articles did not correctly convert to `XML`, so they were removed, leaving the total at 9,214. 
+
+After titles were extracted and merged with the full text, 8,878 articles remained. Further, 59 articles were removed due to being in other languages or missing text. The total after this is 8,819 articles. Lastly, since a cell in a `.csv` file can only handle 32,766 characters, 2,086 articles that had more characters than this were removed. After this, the total was 6,733 articles. Finally, when the full text was merged with the original metadata based on titles, 5,367 articles were dropped, most likely because the correct PDF was not downloaded. This leaves the total at 1,366 with 4 inclusions and 1,362 exclusions. 
+
+-----
+
+# Exporting the datasets
+
+The simulation for ASReview requires that only 1 column be labeled `abstract`, so for the full text and enhanced abstracts dataset, they will be renamed.
+```{r eval=FALSE}
+meta_FT_final <- meta_FT[, c("title", "doi", "included", "file", "text")]
+colnames(meta_FT_final)[colnames(meta_FT_final) == "text"] <- "abstract"
+
+meta_EA_final <- meta_EA[, c("title", "doi", "included", "file", "text")]
+colnames(meta_EA_final)[colnames(meta_EA_final) == "text"] <- "abstract"
+```
+
+Now to export all 3 of the datasets that were just made.
+```{r eval=FALSE}
+write.csv(x = meta_original, file = "meta_original.csv", row.names = F, quote = T)
+write.csv(x = meta_FT_final, file = "meta_FT.csv", row.names = F, quote = T)
+write.csv(x = meta_EA_final, file = "meta_EA.csv", row.names = F, quote = T)
+```
+
+-----
+
+# End of document
+
+-----
+
+```{r}
+sessionInfo()
+```
+ 
+

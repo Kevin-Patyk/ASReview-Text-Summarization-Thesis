@@ -1,0 +1,13 @@
+dataset_name,model,query_strategy,balance_strategy,feature_extraction,n_instances,wss95,wss100,rrf5,rrf10,loss,n_states
+output/simulation/meta_EA_final/state_files/state_meta_EA_final_65.h5,nb,max,double,tfidf,1,91.07011070110701,91.07011070110701,66.66666666666667,100.0,0.055392874572962415,1
+output/simulation/meta_EA_final/state_files/state_meta_EA_final_238.h5,nb,max,double,tfidf,1,87.01107011070111,87.01107011070111,33.333333333333336,66.66666666666667,0.07076622742801365,1
+output/simulation/meta_EA_final/state_files/state_meta_EA_final_775.h5,nb,max,double,tfidf,1,78.1549815498155,78.1549815498155,0.0,0.0,0.17984382625671058,1
+output/simulation/meta_EA_final/state_files/state_meta_EA_final_865.h5,nb,max,double,tfidf,1,84.64944649446494,84.64944649446494,33.333333333333336,66.66666666666667,0.08199121522693997,1
+output/simulation/meta_FT/state_files/state_meta_FT_65.h5,nb,max,double,tfidf,1,94.09594095940959,94.09594095940959,66.66666666666667,100.0,0.040995607613469986,1
+output/simulation/meta_FT/state_files/state_meta_FT_238.h5,nb,max,double,tfidf,1,89.44649446494465,89.44649446494465,66.66666666666667,66.66666666666667,0.0531966813079551,1
+output/simulation/meta_FT/state_files/state_meta_FT_775.h5,nb,max,double,tfidf,1,90.11070110701107,90.11070110701107,66.66666666666667,100.0,0.05051244509516837,1
+output/simulation/meta_FT/state_files/state_meta_FT_865.h5,nb,max,double,tfidf,1,88.92988929889299,88.92988929889299,66.66666666666667,66.66666666666667,0.0534407027818448,1
+output/simulation/meta_original/state_files/state_meta_original_65.h5,nb,max,double,tfidf,1,93.94833948339483,93.94833948339483,66.66666666666667,100.0,0.027818448023426062,1
+output/simulation/meta_original/state_files/state_meta_original_238.h5,nb,max,double,tfidf,1,93.13653136531366,93.13653136531366,66.66666666666667,100.0,0.037579306979014154,1
+output/simulation/meta_original/state_files/state_meta_original_775.h5,nb,max,double,tfidf,1,94.76014760147602,94.76014760147602,66.66666666666667,100.0,0.030990727183992192,1
+output/simulation/meta_original/state_files/state_meta_original_865.h5,nb,max,double,tfidf,1,93.80073800738008,93.80073800738008,66.66666666666667,100.0,0.03831137140068326,1

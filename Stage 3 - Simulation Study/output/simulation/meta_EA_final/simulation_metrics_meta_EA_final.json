@@ -1,0 +1,214 @@
+{
+  "output/simulation/meta_EA_final/state_files/state_meta_EA_final_65.h5": {
+    "settings": {
+      "data_name": "meta_EA_final",
+      "model": "nb",
+      "query_strategy": "max",
+      "balance_strategy": "double",
+      "feature_extraction": "tfidf",
+      "n_instances": 1,
+      "n_prior_included": 1,
+      "n_prior_excluded": 1,
+      "mode": "simulate",
+      "model_param": {
+        "alpha": 3.822
+      },
+      "query_param": {},
+      "feature_param": {
+        "ngram_max": 1,
+        "stop_words": "english",
+        "split_ta": 0,
+        "use_keywords": 0
+      },
+      "balance_param": {
+        "a": 2.155,
+        "alpha": 0.94,
+        "b": 0.789,
+        "beta": 1.0
+      }
+    },
+    "wss": {
+      "95": 91.07011070110701,
+      "100": 91.07011070110701
+    },
+    "rrf": {
+      "5": 66.66666666666667,
+      "10": 100.0
+    },
+    "loss": 0.055392874572962415,
+    "time_to_discovery": {
+      "238": 50.0,
+      "865": 56.0,
+      "775": 121.0
+    },
+    "general": {
+      "n_queries": [
+        1356
+      ],
+      "n_states": 1,
+      "n_papers": 1366,
+      "n_included": 4,
+      "n_excluded": 1362,
+      "n_unlabeled": 0
+    }
+  },
+  "output/simulation/meta_EA_final/state_files/state_meta_EA_final_238.h5": {
+    "settings": {
+      "data_name": "meta_EA_final",
+      "model": "nb",
+      "query_strategy": "max",
+      "balance_strategy": "double",
+      "feature_extraction": "tfidf",
+      "n_instances": 1,
+      "n_prior_included": 1,
+      "n_prior_excluded": 1,
+      "mode": "simulate",
+      "model_param": {
+        "alpha": 3.822
+      },
+      "query_param": {},
+      "feature_param": {
+        "ngram_max": 1,
+        "stop_words": "english",
+        "split_ta": 0,
+        "use_keywords": 0
+      },
+      "balance_param": {
+        "a": 2.155,
+        "alpha": 0.94,
+        "b": 0.789,
+        "beta": 1.0
+      }
+    },
+    "wss": {
+      "95": 87.01107011070111,
+      "100": 87.01107011070111
+    },
+    "rrf": {
+      "5": 33.333333333333336,
+      "10": 66.66666666666667
+    },
+    "loss": 0.07076622742801365,
+    "time_to_discovery": {
+      "865": 15.0,
+      "775": 99.0,
+      "65": 176.0
+    },
+    "general": {
+      "n_queries": [
+        1356
+      ],
+      "n_states": 1,
+      "n_papers": 1366,
+      "n_included": 4,
+      "n_excluded": 1362,
+      "n_unlabeled": 0
+    }
+  },
+  "output/simulation/meta_EA_final/state_files/state_meta_EA_final_775.h5": {
+    "settings": {
+      "data_name": "meta_EA_final",
+      "model": "nb",
+      "query_strategy": "max",
+      "balance_strategy": "double",
+      "feature_extraction": "tfidf",
+      "n_instances": 1,
+      "n_prior_included": 1,
+      "n_prior_excluded": 1,
+      "mode": "simulate",
+      "model_param": {
+        "alpha": 3.822
+      },
+      "query_param": {},
+      "feature_param": {
+        "ngram_max": 1,
+        "stop_words": "english",
+        "split_ta": 0,
+        "use_keywords": 0
+      },
+      "balance_param": {
+        "a": 2.155,
+        "alpha": 0.94,
+        "b": 0.789,
+        "beta": 1.0
+      }
+    },
+    "wss": {
+      "95": 78.1549815498155,
+      "100": 78.1549815498155
+    },
+    "rrf": {
+      "5": 0.0,
+      "10": 0.0
+    },
+    "loss": 0.17984382625671058,
+    "time_to_discovery": {
+      "238": 217.0,
+      "865": 224.0,
+      "65": 296.0
+    },
+    "general": {
+      "n_queries": [
+        1356
+      ],
+      "n_states": 1,
+      "n_papers": 1366,
+      "n_included": 4,
+      "n_excluded": 1362,
+      "n_unlabeled": 0
+    }
+  },
+  "output/simulation/meta_EA_final/state_files/state_meta_EA_final_865.h5": {
+    "settings": {
+      "data_name": "meta_EA_final",
+      "model": "nb",
+      "query_strategy": "max",
+      "balance_strategy": "double",
+      "feature_extraction": "tfidf",
+      "n_instances": 1,
+      "n_prior_included": 1,
+      "n_prior_excluded": 1,
+      "mode": "simulate",
+      "model_param": {
+        "alpha": 3.822
+      },
+      "query_param": {},
+      "feature_param": {
+        "ngram_max": 1,
+        "stop_words": "english",
+        "split_ta": 0,
+        "use_keywords": 0
+      },
+      "balance_param": {
+        "a": 2.155,
+        "alpha": 0.94,
+        "b": 0.789,
+        "beta": 1.0
+      }
+    },
+    "wss": {
+      "95": 84.64944649446494,
+      "100": 84.64944649446494
+    },
+    "rrf": {
+      "5": 33.333333333333336,
+      "10": 66.66666666666667
+    },
+    "loss": 0.08199121522693997,
+    "time_to_discovery": {
+      "238": 15.0,
+      "775": 113.0,
+      "65": 208.0
+    },
+    "general": {
+      "n_queries": [
+        1356
+      ],
+      "n_states": 1,
+      "n_papers": 1366,
+      "n_included": 4,
+      "n_excluded": 1362,
+      "n_unlabeled": 0
+    }
+  }
+}

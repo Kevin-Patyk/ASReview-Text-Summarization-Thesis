@@ -1,0 +1,205 @@
+---
+title: "ROGUE Figures"
+author: "Kevin Patyk"
+date: "3/29/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Loading the required packages
+
+```{r}
+library(ggplot2)
+```
+
+-----
+
+# Making the data
+
+```{r}
+models <- c("BART Base", 
+"BART Large", 
+"BART Large (CNN)",
+"BigBird PEGASUS (ARXIV)",
+"BigBird PEGASUS (Big Patent)",
+"Distil BART 6-6 (CNN)",
+"Distil BART 12-3 (CNN)",
+"Distil BART 12-6 (CNN)",
+"Distil BART 12-1 (XSum)",
+"PEGASUS Large",
+"PEGASUS (ARXIV)",
+"PEGASUS (CNN Daily Mail)",
+"T5 Base",
+"T5 Small",
+"T5 Small (WikiHow)")
+
+rogue1 <- c(9.39,
+10.95,
+40.49,
+45.48,
+45.09,
+39.28,
+40.56,
+40.10,
+27.00,
+39.11,
+44.29,
+37.26,
+9.38,
+8.83,
+8.96)
+
+rogue2 <- c(4.05,
+5.09,
+16.74,
+20.02,
+19.55,
+15.88,
+16.98,
+16.50,
+12.73,
+15.41,
+19.05,
+15.82,
+3.70,
+3.26,
+3.27)
+
+roguel <- c(8.45,
+9.56,
+24.98,
+28.36,
+27.39,
+24.23,
+25.34,
+24.83,
+19.87,
+24.37,
+27.11,
+24.20,
+8.49,
+8.00,
+8.15)
+
+roguelsum <- c(8.97,
+10.43,
+36.40,
+41.46,
+41.11,
+35.27,
+36.46,
+36.08,
+25.05,
+35.12,
+40.26,
+34.03,
+9.00,
+8.45,
+8.57)
+
+df <- data.frame(models, rogue1, rogue2, roguel, roguelsum)
+```
+
+-----
+
+# Making the figures
+
+## ROGUE-1
+
+```{r}
+df1 <- df
+df1$models <- reorder(models, -rogue1)
+
+(p1 <- ggplot(data = df1, aes(x = models, y = rogue1)) + 
+  geom_bar(aes(fill = models), stat = "identity", color = "black") +
+  geom_text(data = df, stat = "identity", aes(label = rogue1), vjust = -.5, size = 4) + 
+  #labs(title = "ROGUE-1 Scores for All Models after 5 Epochs") + 
+  ylab("ROGUE-1 Score") +
+  ylim(c(0, 50)) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 62, vjust = 1, hjust = 1, face = "bold")) + 
+  theme(axis.title.y = element_text(vjust = 3)) + 
+  theme(axis.title.x = element_blank()) + 
+  theme(legend.position = "none") +
+  scale_fill_grey(start = 0.1, end = 0.9))
+```
+
+## ROGUE-2
+
+```{r}
+df2 <- df
+df2$models <- reorder(models, -rogue2)
+
+(p2 <- ggplot(data = df2, aes(x = models, y = rogue2)) + 
+  geom_bar(aes(fill = models), stat = "identity", color = "black") +
+  geom_text(data = df, stat = "identity", aes(label = rogue2), vjust = -.5, size = 4) + 
+  #labs(title = "ROGUE-2 Scores for All Models after 5 Epochs") + 
+  ylab("ROGUE-2 Score") +
+  ylim(c(0, 25)) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 62, vjust = 1, hjust = 1, face = "bold")) + 
+  theme(axis.title.y = element_text(vjust = 3)) + 
+  theme(axis.title.x = element_blank()) + 
+  theme(legend.position = "none") +
+  scale_fill_grey(start = 0.1, end = 0.9))
+```
+
+## ROGUE-L
+
+```{r}
+df3 <- df
+df3$models <- reorder(models, -roguel)
+
+(p3 <- ggplot(data = df3, aes(x = models, y = roguel)) + 
+  geom_bar(aes(fill = models), stat = "identity", color = "black") +
+  geom_text(data = df, stat = "identity", aes(label = roguel), vjust = -.5, size = 4) + 
+  #labs(title = "ROGUE-L Scores for All Models after 5 Epochs") + 
+  ylab("ROGUE-L Score") +
+  ylim(c(0, 35)) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 62, vjust = 1, hjust = 1, face = "bold")) + 
+  theme(axis.title.y = element_text(vjust = 3)) + 
+  theme(axis.title.x = element_blank()) + 
+  theme(legend.position = "none") +
+  scale_fill_grey(start = 0.1, end = 0.9))
+```
+
+## ROGUE-L Summary
+
+```{r}
+df4 <- df
+df4$models <- reorder(models, -roguelsum)
+
+(p4 <- ggplot(data = df4, aes(x = models, y = roguelsum)) + 
+  geom_bar(aes(fill = models), stat = "identity", color = "black") +
+  geom_text(data = df, stat = "identity", aes(label = roguelsum), vjust = -.5, size = 4) + 
+  #labs(title = "ROGUE-L Sum Scores for All Models after 5 Epochs") + 
+  ylab("ROGUE-L Sum Score") +
+  ylim(c(0, 50)) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(angle = 62, vjust = 1, hjust = 1, face = "bold")) + 
+  theme(axis.title.y = element_text(vjust = 3)) + 
+  theme(axis.title.x = element_blank()) + 
+  theme(legend.position = "none") +
+  scale_fill_grey(start = 0.1, end = 0.9))
+```
+
+-----
+
+# End of document
+
+-----
+
+```{r}
+sessionInfo()
+```
+
+
+

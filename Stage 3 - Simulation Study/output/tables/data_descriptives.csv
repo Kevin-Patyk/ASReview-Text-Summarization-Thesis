@@ -1,0 +1,4 @@
+dataset_name,n_papers,n_included,n_excluded,n_unlabeled,n_missing_title,n_missing_title_included,n_missing_abstract,n_missing_abstract_included,title_length,abstract_length,n_keywords
+data/meta_EA_final.csv,1366,4,1362,0,0,0,0,0,110.71376281112738,1992.8784773060029,
+data/meta_FT.csv,1366,4,1362,0,0,0,0,0,110.71376281112738,23397.93411420205,
+data/meta_original.csv,1366,4,1362,0,0,0,0,0,110.71376281112738,1685.5959004392387,

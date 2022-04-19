@@ -1,0 +1,15 @@
+{
+  "data/meta_FT.csv": {
+    "n_papers": 1366,
+    "n_included": 4,
+    "n_excluded": 1362,
+    "n_unlabeled": 0,
+    "n_missing_title": 0,
+    "n_missing_title_included": 0,
+    "n_missing_abstract": 0,
+    "n_missing_abstract_included": 0,
+    "title_length": 110.71376281112738,
+    "abstract_length": 23397.93411420205,
+    "n_keywords": null
+  }
+}

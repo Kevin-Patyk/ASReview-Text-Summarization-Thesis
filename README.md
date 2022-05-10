@@ -2,7 +2,7 @@
 
 **Author**: Kevin Patyk
 
-**Supervisors**: (Ayoub Bagheri)[https://www.uu.nl/medewerkers/ABagheri] & (Rens van de Schoot)[https://www.rensvandeschoot.com/]
+**Supervisors**: [Ayoub Bagheri](https://www.uu.nl/medewerkers/ABagheri) & [Rens van de Schoot](https://www.rensvandeschoot.com/)
 
 Department of Methodology and Statistics, Utrecht University, the Netherlands
 
@@ -39,11 +39,11 @@ For Stages 2 & 3, the systematic review data from [“Psychological theories of 
 
 The final datasets containing the metadata with full text and metadata with enhanced abstracts could not be posted online due to publisher licensing restrictions. 
 
-# Content: `Stage 1 - Model Evaluation & Selection` 
+# Content: Stage 1 - Model Evaluation & Selection
 
 This folder contains the `Python` (version 3.10) scripts in `ipynb` & `.py` formats for evaluating the 15 text summarization algorithms.
 
-In order to make summaries, the graphics processing unit (GPU) is used to optimize the models. In order to use the GPU to optimize deep learning models, NVIDIA`s (`CUDA`)[https://developer.nvidia.com/cuda-downloads] (version 11.6) is used.  
+In order to make summaries, the graphics processing unit (GPU) is used to optimize the models. In order to use the GPU to optimize deep learning models, NVIDIA's [`CUDA`](https://developer.nvidia.com/cuda-downloads) (version 11.6) is used.  
 
 * `bart-base-pubmed`
 * `bart-large-cnn-pubmed`
@@ -61,26 +61,26 @@ In order to make summaries, the graphics processing unit (GPU) is used to optimi
 * `t5-small-pubmed`
 * `t5-small-wikihow-pubmed`
 
-The models, along with evaluation results, are also uploaded to the (author's Hugging Face profile)[https://huggingface.co/Kevincp560]. 
+The models, along with evaluation results, are also uploaded to the [author's Hugging Face profile](https://huggingface.co/Kevincp560). 
 
-# Content: `Stage 2 - Preprocessing & Model Application`
+# Content: Stage 2 - Preprocessing & Model Application
 
 This folder contains the `R` (version 4.1.2) scripts in `.Rmd` and `.html` formats used during preprocessing. Additionally, it contains the Python (version 3.10) script in `ipynb` & `.py` formats for creating the the summaries using the selected algorithm from Stage 1.
 
-The scripts for identifying articles and parsing the PDF files were provided by (Bianca Kramer)[https://www.uu.nl/medewerkers/bmrkramer].
+The scripts for identifying articles and parsing the PDF files were provided by [Bianca Kramer](https://www.uu.nl/medewerkers/bmrkramer).
 
 * `Part 1 - Gathering Article Information`: This folder contains the `R` script which iterates through the metadata provided by the depression dataset and obtains article information, such as licensing and determining if the URL is a PDF.
 * `Part 2 - Downloading Articles`: This folder contains the `R` script which is used to download all of the articles that have the URL as a PDF.
 
-Before moving on to the third stage, the PDF files need to be parsed. (GROBID)[https://github.com/kermitt2/grobid] is used to parse the PDF files into XML format before importing and cleaning the text in `R`. How to install and use GROBID can be done by reading the (documentation)[https://grobid.readthedocs.io/en/latest/Install-Grobid/].
+Before moving on to the third stage, the PDF files need to be parsed. [GROBID](https://github.com/kermitt2/grobid) is used to parse the PDF files into XML format before importing and cleaning the text in `R`. How to install and use GROBID can be done by reading the [documentation](https://grobid.readthedocs.io/en/latest/Install-Grobid/).
 
 * `Part 3 - Preprocessing`: This folder contains the `R` script which is used to import, clean, and merge the full text with the metadata prior to making summaries. 
 
 * `Part 4 - Algorithm Application`: This folder contaisn the `Python` scripts which create summaries of the full text articles. Similar to Stage 1, NVIDIA's `CUDA` is used to optimize the deep learning models.
 
-# Content: `Stage 3 - Simulation Study`
+# Content: Stage 3 - Simulation Study
 
-The simulation study is conducted using (ASReview)[https://asreview.nl/]. The ASReview GitHub page can be found (here)[https://github.com/asreview/asreview]. For information about installation and usage, see the ASReview (documentation)[https://asreview.readthedocs.io/en/latest/]. The simulation study is conducted using the default settings of the simulation mode. 
+The simulation study is conducted using [ASReview](https://asreview.nl/). The ASReview GitHub page can be found [here](https://github.com/asreview/asreview). For information about installation and usage, see the ASReview [documentation](https://asreview.readthedocs.io/en/latest/). The simulation study is conducted using the default settings of the simulation mode. 
 
 This folder contains the `output` (results) and `scripts` folders. 
 
@@ -92,21 +92,20 @@ sh jobs.sh
 
 However, this will not be possible without the final datasets the containing the metadata with full text and metadata with enhanced abstracts could not be posted online due to publisher licensing restrictions. 
 
-# Content: `Flow Diagram` and `ROUGE Figures`
+# Content: Flow Diagram and ROUGE Figures
 
 These folders contain the figures used in the final manuscript.
 
-# Content: `Manuscript`
+# Content: Manuscript
 
 This folders contains the final manuscript in `PDF` format. 
 
 # Acknowledgements
 
 This work would not have been possible without the help and support of my amazing
-supervisors, (Ayoub Bagheri)[https://www.uu.nl/medewerkers/ABagheri] and (Rens van de Schoot)[https://www.rensvandeschoot.com/]. Thank you for always being supportive,
+supervisors, [Ayoub Bagheri](https://www.uu.nl/medewerkers/ABagheri) and [Rens van de Schoot](https://www.rensvandeschoot.com/). Thank you for always being supportive,
 available, and incredibly helpful throughout the course of this study. I would also personally like
-to thank (Bianca Kramer)[https://www.uu.nl/medewerkers/bmrkramer] for providing me with invaluable assistance with identifying, downloading, and parsing the PDF files. Furthermore, a very special thank you to (Jelle Teijema)[https://teije.ma/] for helping me with the simulation study and identifying areas for improvement. Lastly, I would
-like to thank the entirety of the (ASReview team)[https://asreview.nl/about/] for being supportive and curious about the work. I am very excited and interested to see how this work is incorporated into ASReview in the future.
+to thank [Bianca Kramer](https://www.uu.nl/medewerkers/bmrkramer) for providing me with invaluable assistance with identifying, downloading, and parsing the PDF files. Furthermore, a very special thank you to [Jelle Teijema](https://teije.ma/) for helping me with the simulation study and identifying areas for improvement. Lastly, I would like to thank the entirety of the [ASReview team](https://asreview.nl/about/) for being supportive and curious about the work. I am very excited and interested to see how this work is incorporated into ASReview in the future.
 
 # License 
 

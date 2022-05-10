@@ -8,7 +8,7 @@ Department of Methodology and Statistics, Utrecht University, the Netherlands
 
 In colloboration with ASReview.
 
-![Elas](elas/ElasWelcome.png)
+![](elas/ElasWelcome.png)
 
 # Introduction 
 

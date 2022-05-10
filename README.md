@@ -130,6 +130,13 @@ to thank [Bianca Kramer](https://www.uu.nl/medewerkers/bmrkramer) for providing 
   >
 </p>
 
+# References
+
+Brouwer, M. E., Williams, A. D., Kennis, M., Fu, Z., Klein, N. S., Cuijpers, P., & Bockting,
+C. L. (2019). Psychological theories of depressive relapse and recurrence: A systematic
+review and meta-analysis of prospective studies. Clinical Psychology Review, 74,
+101773.
+
 # License 
 
 The content in this repository is published under the MIT license.

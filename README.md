@@ -10,7 +10,7 @@ In colloboration with [ASReview](https://asreview.nl/).
 
 <p align="center">
   <img 
-    height="200"
+    height="150"
     src="Elas/ASReviewLogo.png"
   >
 </p>

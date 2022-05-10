@@ -111,6 +111,13 @@ supervisors, [Ayoub Bagheri](https://www.uu.nl/medewerkers/ABagheri) and [Rens v
 available, and incredibly helpful throughout the course of this study. I would also personally like
 to thank [Bianca Kramer](https://www.uu.nl/medewerkers/bmrkramer) for providing me with invaluable assistance with identifying, downloading, and parsing the PDF files. Furthermore, a very special thank you to [Jelle Teijema](https://teije.ma/) for helping me with the simulation study and identifying areas for improvement. Lastly, I would like to thank the entirety of the [ASReview team](https://asreview.nl/about/) for being supportive and curious about the work. I am very excited and interested to see how this work is incorporated into ASReview in the future.
 
+# References
+
+Brouwer, M. E., Williams, A. D., Kennis, M., Fu, Z., Klein, N. S., Cuijpers, P., & Bockting,
+C. L. (2019). Psychological theories of depressive relapse and recurrence: A systematic
+review and meta-analysis of prospective studies. Clinical Psychology Review, 74,
+101773.
+
 # License 
 
 The content in this repository is published under the MIT license.

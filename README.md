@@ -116,6 +116,13 @@ supervisors, [Ayoub Bagheri](https://www.uu.nl/medewerkers/ABagheri) and [Rens v
 available, and incredibly helpful throughout the course of this study. I would also personally like
 to thank [Bianca Kramer](https://www.uu.nl/medewerkers/bmrkramer) for providing me with invaluable assistance with identifying, downloading, and parsing the PDF files. Furthermore, a very special thank you to [Jelle Teijema](https://teije.ma/) for helping me with the simulation study and identifying areas for improvement. Lastly, I would like to thank the entirety of the [ASReview team](https://asreview.nl/about/) for being supportive and curious about the work. I am very excited and interested to see how this work is incorporated into ASReview in the future.
 
+<p align="center">
+  <img 
+    height="300"
+    src="Elas/ElasBalloons.png"
+  >
+</p>
+
 # License 
 
 The content in this repository is published under the MIT license.

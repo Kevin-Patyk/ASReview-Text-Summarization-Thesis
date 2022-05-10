@@ -6,7 +6,7 @@
 
 Department of Methodology and Statistics, Utrecht University, the Netherlands
 
-In colloboration with ASReview.
+In colloboration with [ASReview](https://asreview.nl/).
 
 <p align="center">
   <img 

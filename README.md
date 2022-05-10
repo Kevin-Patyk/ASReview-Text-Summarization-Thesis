@@ -89,7 +89,14 @@ Before moving on to the third stage, the PDF files need to be parsed. [GROBID](h
 
 # Content: Stage 3 - Simulation Study
 
-The simulation study is conducted using [ASReview](https://asreview.nl/). The ASReview GitHub page can be found [here](https://github.com/asreview/asreview). For information about installation and usage, see the ASReview [documentation](https://asreview.readthedocs.io/en/latest/). The simulation study is conducted using the default settings of the simulation mode. 
+The simulation study is conducted using [ASReview](https://asreview.nl/). The ASReview GitHub page can be found [here](https://github.com/asreview/asreview). For information about installation and usage, see the ASReview [documentation](https://asreview.readthedocs.io/en/latest/). The simulation study is conducted using the default settings of the simulation mode.
+
+<p align="left">
+  <img 
+    height="100"
+    src="Elas/ElasWorker.png"
+  >
+</p>
 
 This folder contains the `output` (results) and `scripts` folders. 
 
@@ -118,7 +125,7 @@ to thank [Bianca Kramer](https://www.uu.nl/medewerkers/bmrkramer) for providing 
 
 <p align="center">
   <img 
-    height="300"
+    height="200"
     src="Elas/ElasBalloons.png"
   >
 </p>

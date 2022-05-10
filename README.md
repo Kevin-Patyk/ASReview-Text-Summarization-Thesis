@@ -11,7 +11,7 @@ In colloboration with [ASReview](https://asreview.nl/).
 <p align="center">
   <img 
     height="200"
-    src="Elas/ElasWelcome.png"
+    src="Elas/ASReviewLogo.png"
   >
 </p>
 

@@ -8,7 +8,12 @@ Department of Methodology and Statistics, Utrecht University, the Netherlands
 
 In colloboration with [ASReview](https://asreview.nl/).
 
-![](elas/ElasWelcome.png)
+<p align="center">
+  <img 
+    height="150"
+    src="Elas/ASReviewLogo.png"
+  >
+</p>
 
 # Introduction 
 
@@ -37,9 +42,9 @@ enhanced abstracts. Areas of improvement and suggestions for future research are
 
 The data used in this study are publicly available.
 
-For Stage 1, the [PubMed](https://github.com/armancohan/long-summarization) is used. 
+For Stage 1, the [PubMed](https://github.com/armancohan/long-summarization) data collected by Cohan et al. (2018) is used. 
 
-For Stages 2 & 3, the systematic review data from [“Psychological theories of depressive relapse and recurrence”](https://osf.io/r45yz/) (Brouwer et al., 2019) is used. 
+For Stages 2 & 3, the systematic review data from [“Psychological theories of depressive relapse and recurrence”](https://osf.io/r45yz/) collected by Brouwer et al. (2019) is used. 
 
 The final datasets containing the metadata with full text and metadata with enhanced abstracts could not be posted online due to publisher licensing restrictions. 
 
@@ -84,7 +89,14 @@ Before moving on to the third stage, the PDF files need to be parsed. [GROBID](h
 
 # Content: Stage 3 - Simulation Study
 
-The simulation study is conducted using [ASReview](https://asreview.nl/). The ASReview GitHub page can be found [here](https://github.com/asreview/asreview). For information about installation and usage, see the ASReview [documentation](https://asreview.readthedocs.io/en/latest/). The simulation study is conducted using the default settings of the simulation mode. 
+The simulation study is conducted using [ASReview](https://asreview.nl/). The ASReview GitHub page can be found [here](https://github.com/asreview/asreview). For information about installation and usage, see the ASReview [documentation](https://asreview.readthedocs.io/en/latest/). The simulation study is conducted using the default settings of the simulation mode.
+
+<p align="left">
+  <img 
+    height="100"
+    src="Elas/ElasWorker.png"
+  >
+</p>
 
 This folder contains the `output` (results) and `scripts` folders. 
 
@@ -111,12 +123,23 @@ supervisors, [Ayoub Bagheri](https://www.uu.nl/medewerkers/ABagheri) and [Rens v
 available, and incredibly helpful throughout the course of this study. I would also personally like
 to thank [Bianca Kramer](https://www.uu.nl/medewerkers/bmrkramer) for providing me with invaluable assistance with identifying, downloading, and parsing the PDF files. Furthermore, a very special thank you to [Jelle Teijema](https://teije.ma/) for helping me with the simulation study and identifying areas for improvement. Lastly, I would like to thank the entirety of the [ASReview team](https://asreview.nl/about/) for being supportive and curious about the work. I am very excited and interested to see how this work is incorporated into ASReview in the future.
 
+<p align="center">
+  <img 
+    height="200"
+    src="Elas/ElasBalloons.png"
+  >
+</p>
+
 # References
 
 Brouwer, M. E., Williams, A. D., Kennis, M., Fu, Z., Klein, N. S., Cuijpers, P., & Bockting,
 C. L. (2019). Psychological theories of depressive relapse and recurrence: A systematic
 review and meta-analysis of prospective studies. Clinical Psychology Review, 74,
 101773.
+
+Cohan, A., Dernoncourt, F., Kim, D. S., Bui, T., Kim, S., Chang, W., & Goharian, N. (2018).
+A discourse-aware attention model for abstractive summarization of long documents.
+arXiv preprint arXiv:1804.05685
 
 # License 
 
